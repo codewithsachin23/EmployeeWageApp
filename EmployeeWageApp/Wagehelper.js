@@ -9,12 +9,15 @@ function calculateTotalWage(dailyWages) {
     let dailyWageMap = dailyWages.map(day => `Day ${day.day}: Wage $${day.wage}`);
     console.log("Daily Wages:", dailyWageMap);
 
+    // Displaying days when Full time wage of 160 were earned
     let fullTimeDays = dailyWages.filter(day => day.wage === 160).map(day => day.day);
     console.log("Days with Full Time Wage:", fullTimeDays);
 
+    // Find first occurrence when Full Time Wage was earned
     let firstFullTimeDay = dailyWages.find(day => day.wage === 160);
     console.log("First Day with Full Time Wage:", firstFullTimeDay ? `Day ${firstFullTimeDay.day}` : "None");
 
+    // Function to Check if every element of Full Time wage is actually holding Full Time wage
     let allFullTime = dailyWages.every(day => day.wage === 160);
     console.log("Is every day a Full Time Wage Day?", allFullTime);
 
@@ -27,5 +30,20 @@ function calculateTotalWage(dailyWages) {
     console.log("Total Days Worked:", totalWorkedDays);
 }
 
-// Exporting function
-module.exports = { calculateTotalWage };
+
+// Function for processing day-wise wage
+function processDayWiseWage(dailyWageMap) {
+
+    // Displaying Day-wise Wage
+    console.log("Day-wise Wages:");
+    dailyWageMap.forEach((wage, day) => {
+        console.log(`Day ${day}: Wage $${wage}`);
+    });
+
+    // Calculating Total Wage
+    let totalWageFromMap = Array.from(dailyWageMap.values()).reduce((total, wage) => total + wage, 0);
+    console.log(`Total Monthly Wage (From Map): $${totalWageFromMap}`);
+}
+
+// Exporting functions
+module.exports = { calculateTotalWage, processDayWiseWage };

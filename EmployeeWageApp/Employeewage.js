@@ -1,5 +1,6 @@
-const { calculateTotalWage } = require("./Wagehelper");
+const { calculateTotalWage, processDayWiseWage } = require("./wageHelper");
 
+// Constants
 const IS_PART_TIME = 1;
 const IS_FULL_TIME = 2;
 const PART_TIME_HOURS = 4;
@@ -20,11 +21,12 @@ function getWorkHours(empCheck) {
     }
 }
 
-// Function for calculating total wage and storing daily wages
+// Function for generating employee wages
 function generateEmployeeWages() {
     let totalEmpHours = 0;
     let totalWorkingDays = 0;
     let dailyWages = [];
+    let dailyWageMap = new Map(); // Map to store day-wise wages
 
     while (totalEmpHours < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
         let empCheck = Math.floor(Math.random() * 3);
@@ -32,13 +34,15 @@ function generateEmployeeWages() {
         let dailyWage = empHours * WAGE_PER_HOUR;
 
         dailyWages.push({ day: totalWorkingDays + 1, wage: dailyWage, hours: empHours });
+        dailyWageMap.set(totalWorkingDays + 1, dailyWage); // Store Day-Wise Wage in Map
         totalEmpHours += empHours;
         totalWorkingDays++;
     }
 
-    // Calling helper function to process wages
+    // Process wages using helper functions
     calculateTotalWage(dailyWages);
+    processDayWiseWage(dailyWageMap);
 }
 
-
+// Execute function
 generateEmployeeWages();
