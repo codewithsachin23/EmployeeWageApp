@@ -5,11 +5,6 @@ const PART_TIME_HOURS = 4;
 const FULL_TIME_HOURS = 8;
 const WAGE_PER_HOUR = 20;
 
-// Generating work type :- Absent, Part-Time, Full-Time
-let empCheck = Math.floor(Math.random() * 3);
-
-let empHours = 0;
-
 switch (empCheck) {
     case IS_PART_TIME:
         empHours = PART_TIME_HOURS;
@@ -20,6 +15,10 @@ switch (empCheck) {
     default:
         empHours = 0;
 }
-
+// Generating work type :- Absent, Part-Time, Full-Time
+let empCheck = Math.floor(Math.random() * 3);
+let empHours = getWorkHours(empCheck);
 let dailyWage = empHours * WAGE_PER_HOUR;
+
 console.log(`Employee worked ${empHours} hours, Daily Wage: $${dailyWage}`);
+
