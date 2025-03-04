@@ -4,7 +4,7 @@ const {
     showPartWorkingDays,
     showNoWorkingDays,
     processArrayOperations
-} = require("./Wagehelper");
+} = require("./wagehelper");
 
 const IS_PART_TIME = 1;
 const IS_FULL_TIME = 2;
