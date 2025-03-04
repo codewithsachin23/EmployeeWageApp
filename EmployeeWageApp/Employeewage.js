@@ -15,16 +15,19 @@ switch (empCheck) {
     default:
         empHours = 0;
 }
-// Calculating total monthly wage
-let totalEmpHours = 0;
-// Function for calculating total wages until limit is reached
+// Function for storing daily wages and calculating total wages
 function calculateTotalWage() {
     let totalEmpHours = 0;
     let totalWorkingDays = 0;
+    let dailyWages = [];
 
     while (totalEmpHours < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
         let empCheck = Math.floor(Math.random() * 3);
-        totalEmpHours += getWorkHours(empCheck);
+        let empHours = getWorkHours(empCheck);
+        let dailyWage = empHours * WAGE_PER_HOUR;
+
+        dailyWages.push(dailyWage); // Store daily wage
+        totalEmpHours += empHours;
         totalWorkingDays++;
     }
 
