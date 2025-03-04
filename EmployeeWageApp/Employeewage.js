@@ -1,6 +1,5 @@
-const { calculateTotalWage, processDayWiseWage } = require("./wageHelper");
+const { calculateTotalWage, processDayWiseWage, categorizeWorkDays } = require("./wageHelper");
 
-// Constants
 const IS_PART_TIME = 1;
 const IS_FULL_TIME = 2;
 const PART_TIME_HOURS = 4;
@@ -21,28 +20,38 @@ function getWorkHours(empCheck) {
     }
 }
 
-// Function for generating employee wages
-function generateEmployeeWages() {
-    let totalEmpHours = 0;
-    let totalWorkingDays = 0;
-    let dailyWages = [];
-    let dailyWageMap = new Map(); // Map to store day-wise wages
+// Arrays and Maps to store daily data
+let dailyWages = [];
+let dailyWageMap = new Map();
+let dailyHourMap = new Map();
 
-    while (totalEmpHours < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
-        let empCheck = Math.floor(Math.random() * 3);
-        let empHours = getWorkHours(empCheck);
-        let dailyWage = empHours * WAGE_PER_HOUR;
+// Calculating total hours and days
+let totalEmpHours = 0;
+let totalWorkingDays = 0;
 
-        dailyWages.push({ day: totalWorkingDays + 1, wage: dailyWage, hours: empHours });
-        dailyWageMap.set(totalWorkingDays + 1, dailyWage); // Store Day-Wise Wage in Map
-        totalEmpHours += empHours;
-        totalWorkingDays++;
-    }
 
-    // Process wages using helper functions
-    calculateTotalWage(dailyWages);
-    processDayWiseWage(dailyWageMap);
+while (totalEmpHours < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
+    totalWorkingDays++;
+    let empCheck = Math.floor(Math.random() * 3);
+    let empHours = getWorkHours(empCheck);
+    let dailyWage = empHours * WAGE_PER_HOUR;
+
+    // Storing data
+    dailyWages.push({ day: totalWorkingDays, wage: dailyWage });
+    dailyWageMap.set(totalWorkingDays, dailyWage);
+    dailyHourMap.set(totalWorkingDays, empHours);
+
+    totalEmpHours += empHours;
 }
 
-// Execute function
-generateEmployeeWages();
+// Calculating total wages
+console.log("\n\nWage Calculations Using Helper Functions");
+calculateTotalWage(dailyWages);
+
+// Processing and displaying day-wise wages
+console.log("\n\nProcessing Day-wise Wage & Hours");
+processDayWiseWage(dailyWageMap, dailyHourMap);
+
+// Categorizing workdays
+console.log("\n\nCategorizing Workdays");
+categorizeWorkDays(dailyHourMap);
