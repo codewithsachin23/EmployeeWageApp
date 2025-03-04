@@ -17,11 +17,20 @@ switch (empCheck) {
 }
 // Calculating total monthly wage
 let totalEmpHours = 0;
+// Function for calculating total wages until limit is reached
+function calculateTotalWage() {
+    let totalEmpHours = 0;
+    let totalWorkingDays = 0;
 
-for (let day = 0; day < WORKING_DAYS_PER_MONTH; day++) {
-    let empCheck = Math.floor(Math.random() * 3);
-    totalEmpHours += getWorkHours(empCheck);
+    while (totalEmpHours < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
+        let empCheck = Math.floor(Math.random() * 3);
+        totalEmpHours += getWorkHours(empCheck);
+        totalWorkingDays++;
+    }
+
+    return totalEmpHours * WAGE_PER_HOUR;
 }
 
-let totalWage = totalEmpHours * WAGE_PER_HOUR;
-console.log(`Total Hours Worked: ${totalEmpHours}, Monthly Wage: $${totalWage}`);
+// calculating total wages
+let totalWage = calculateTotalWage();
+console.log(`Total Monthly Wage: $${totalWage}`);
