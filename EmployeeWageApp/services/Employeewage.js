@@ -1,62 +1,76 @@
-const {
+// Function to calculate total wage and total hours worked using reduce
+const calculateTotalWage = (employeeDailyRecords) => {
+    let totalWage = employeeDailyRecords.reduce((total, record) => total + record.wageEarned, 0);
+    let totalHours = employeeDailyRecords.reduce((total, record) => total + record.hoursWorked, 0);
+
+    console.log(`Total Monthly Wage: $${totalWage}`);
+    console.log(`Total Hours Worked: ${totalHours} hours`);
+};
+
+// Function to show full working days using forEach
+const showFullWorkingDays = (employeeDailyRecords) => {
+    console.log("\nFull Working Days:");
+    employeeDailyRecords.forEach(record => {
+        if (record.hoursWorked === 8) {
+            console.log(`Day ${record.day}: ${record.hoursWorked} hours`);
+        }
+    });
+};
+
+// Function to show part-time working days using map and reduce to String Array
+const showPartWorkingDays = (employeeDailyRecords) => {
+    let partTimeDays = employeeDailyRecords
+        .filter(record => record.hoursWorked === 4)
+        .map(record => `Day ${record.day}`);
+
+    console.log("\nPart-Time Working Days:", partTimeDays.join(", "));
+};
+
+// Function to show no working days
+const showNoWorkingDays = (employeeDailyRecords) => {
+    let noWorkDays = employeeDailyRecords
+        .filter(record => record.hoursWorked === 0)
+        .map(record => `Day ${record.day}`);
+
+    console.log("\nNo Working Days:", noWorkDays.length > 0 ? noWorkDays.join(", ") : "None");
+};
+
+// Function to process wage calculations
+const processArrayOperations = (employeeDailyRecords) => {
+    // Calculate total Wage
+    let totalWage = employeeDailyRecords.reduce((total, day) => total + day.wageEarned, 0);
+    console.log(`Total Monthly Wage: $${totalWage}`);
+
+    // Displaying day along with Daily Wage
+    let dailyWageMap = employeeDailyRecords.map(day => `Day ${day.day}: Wage $${day.wageEarned}`);
+    console.log("Daily Wages:", dailyWageMap);
+
+    // Displaying days when Full time wage of 160 were earned
+    let fullTimeDays = employeeDailyRecords.filter(day => day.wageEarned === 160).map(day => day.day);
+    console.log("Days with Full Time Wage:", fullTimeDays);
+
+    // Find first occurrence when Full Time Wage was earned
+    let firstFullTimeDay = employeeDailyRecords.find(day => day.wageEarned === 160);
+    console.log("First Day with Full Time Wage:", firstFullTimeDay ? `Day ${firstFullTimeDay.day}` : "None");
+
+    // Function to Check if every element of Full Time wage is actually holding Full Time wage
+    let allFullTime = employeeDailyRecords.every(day => day.wageEarned === 160);
+    console.log("Is every day a Full Time Wage Day?", allFullTime);
+
+    // Checking if there is any Part Time Wage
+    let hasPartTime = employeeDailyRecords.some(day => day.wageEarned === 80);
+    console.log("Is there any Part Time Wage?", hasPartTime);
+
+    // Calculating number of days an employee Worked
+    let totalWorkedDays = employeeDailyRecords.length;
+    console.log("Total Days Worked:", totalWorkedDays);
+};
+
+// Exporting functions
+module.exports = {
     calculateTotalWage,
     showFullWorkingDays,
     showPartWorkingDays,
     showNoWorkingDays,
     processArrayOperations
-} = require("./wagehelper");
-
-const IS_PART_TIME = 1;
-const IS_FULL_TIME = 2;
-const PART_TIME_HOURS = 4;
-const FULL_TIME_HOURS = 8;
-const WAGE_PER_HOUR = 20;
-const MAX_WORKING_DAYS = 20;
-const MAX_WORKING_HOURS = 160;
-
-// Function to get work hours
-const getWorkHours = (empCheck) => {
-    switch (empCheck) {
-        case IS_PART_TIME:
-            return PART_TIME_HOURS;
-        case IS_FULL_TIME:
-            return FULL_TIME_HOURS;
-        default:
-            return 0;
-    }
 };
-
-// Array to store employee daily records
-let employeeDailyRecords = [];
-
-// Variables to track total hours and days
-let totalEmpHours = 0;
-let totalWorkingDays = 0;
-
-// Simulate work for each day
-while (totalEmpHours < MAX_WORKING_HOURS && totalWorkingDays < MAX_WORKING_DAYS) {
-    totalWorkingDays++;
-    let empCheck = Math.floor(Math.random() * 3);
-    let empHours = getWorkHours(empCheck);
-    let dailyWage = empHours * WAGE_PER_HOUR;
-
-    // Storing data in an object
-    employeeDailyRecords.push({
-        day: totalWorkingDays,
-        hoursWorked: empHours,
-        wageEarned: dailyWage
-    });
-
-    totalEmpHours += empHours;
-}
-
-// Object operations using Arrow Functions
-console.log("\n\nObject Operations Using Arrow Functions\n");
-calculateTotalWage(employeeDailyRecords);
-showFullWorkingDays(employeeDailyRecords);
-showPartWorkingDays(employeeDailyRecords);
-showNoWorkingDays(employeeDailyRecords);
-
-// Array-based calculations
-console.log("\n\nArray Helper Functions");
-processArrayOperations(employeeDailyRecords);
